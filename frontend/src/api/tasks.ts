@@ -3,7 +3,7 @@ import type { AuthResponse, Task, PagedResponse, TaskFilters, UserSummary } from
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
 export const login = async (username: string, password: string): Promise<AuthResponse> => {
-  const { data } = await api.post<AuthResponse>('/auth/login', { username, password })
+  const { data } = await api.post<AuthResponse>('/api/auth/login', { username, password })
   return data
 }
 
@@ -19,12 +19,12 @@ export const fetchTasks = async (filters: TaskFilters): Promise<PagedResponse<Ta
   if (filters.assignedTo) params.assignedTo = filters.assignedTo
   if (filters.search)     params.search     = filters.search
 
-  const { data } = await api.get<PagedResponse<Task>>('/tasks', { params })
+  const { data } = await api.get<PagedResponse<Task>>('/api/tasks', { params })
   return data
 }
 
 export const fetchTask = async (id: number): Promise<Task> => {
-  const { data } = await api.get<Task>(`/tasks/${id}`)
+  const { data } = await api.get<Task>(`/api/tasks/${id}`)
   return data
 }
 
@@ -38,21 +38,21 @@ export interface TaskPayload {
 }
 
 export const createTask = async (payload: TaskPayload): Promise<Task> => {
-  const { data } = await api.post<Task>('/tasks', payload)
+  const { data } = await api.post<Task>('/api/tasks', payload)
   return data
 }
 
 export const updateTask = async (id: number, payload: Partial<TaskPayload>): Promise<Task> => {
-  const { data } = await api.patch<Task>(`/tasks/${id}`, payload)
+  const { data } = await api.patch<Task>(`/api/tasks/${id}`, payload)
   return data
 }
 
 export const deleteTask = async (id: number): Promise<void> => {
-  await api.delete(`/tasks/${id}`)
+  await api.delete(`/api/tasks/${id}`)
 }
 
 // ── Users ─────────────────────────────────────────────────────────────────────
 export const fetchUsers = async (): Promise<UserSummary[]> => {
-  const { data } = await api.get<UserSummary[]>('/users')
+  const { data } = await api.get<UserSummary[]>('/api/users')
   return data
 }
